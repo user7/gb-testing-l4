@@ -63,6 +63,7 @@ class GitHubRepositoryTest {
             }
 
             override fun cancel() {
+                TODO("Not yet implemented")
             }
 
             override fun isCanceled(): Boolean {
