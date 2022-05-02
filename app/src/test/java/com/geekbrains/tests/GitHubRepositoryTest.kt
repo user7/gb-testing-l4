@@ -24,7 +24,7 @@ class GitHubRepositoryTest {
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockitoAnnotations.openMocks(this)
         repository = GitHubRepository(gitHubApi)
     }
 
@@ -90,7 +90,7 @@ class GitHubRepositoryTest {
         val searchQuery = "some query"
         val call = mock(Call::class.java) as Call<SearchResponse?>
         val callBack = mock(Callback::class.java) as Callback<SearchResponse?>
-        val RepositoryCallback = mock(RepositoryCallback::class.java)
+        val repositoryCallback = mock(RepositoryCallback::class.java)
         val response = mock(Response::class.java) as Response<SearchResponse?>
 
         `when`(gitHubApi.searchGithub(searchQuery)).thenReturn(call)
@@ -98,11 +98,11 @@ class GitHubRepositoryTest {
             callBack.onResponse(any(), any())
         }
         `when`(callBack.onResponse(any(), any())).then {
-            RepositoryCallback.handleGitHubResponse(response)
+            repositoryCallback.handleGitHubResponse(response)
         }
 
-        repository.searchGithub(searchQuery, RepositoryCallback)
+        repository.searchGithub(searchQuery, repositoryCallback)
 
-        verify(RepositoryCallback, times(1)).handleGitHubResponse(response)
+        verify(repositoryCallback, times(1)).handleGitHubResponse(response)
     }
 }
