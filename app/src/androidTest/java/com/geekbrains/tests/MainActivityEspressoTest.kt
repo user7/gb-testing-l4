@@ -26,6 +26,11 @@ class MainActivityEspressoTest {
         scenario = ActivityScenario.launch(MainActivity::class.java)
     }
 
+    @After
+    fun close() {
+        scenario.close()
+    }
+
     @Test
     fun activitySearch_IsWorking() {
         onView(withId(R.id.searchEditText)).perform(click())
@@ -50,8 +55,17 @@ class MainActivityEspressoTest {
         }
     }
 
-    @After
-    fun close() {
-        scenario.close()
+    @Test
+    fun searchEditText_displayed() {
+        onView(withId(R.id.searchEditText))
+            .check(matches(isDisplayed()))
+            .check(matches(withText("")))
     }
+
+    @Test
+    fun toDetails_displayed() {
+        onView(withId(R.id.toDetailsActivityButton))
+            .check(matches(isDisplayed()))
+    }
+
 }
